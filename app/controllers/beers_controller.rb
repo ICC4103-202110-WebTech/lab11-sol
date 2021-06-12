@@ -1,8 +1,8 @@
-#include ApplicationHelper
-
 class BeersController < ApplicationController
+  before_action :authenticate_user!, only: %i[ new create edit update destroy ]
   before_action :set_beer, only: %i[ show edit update destroy ]
-
+  load_and_authorize_resource
+  
   # GET /beers or /beers.json
   def index
     if params.has_key?(:brand_id)

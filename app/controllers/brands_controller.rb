@@ -1,9 +1,11 @@
 class BrandsController < ApplicationController
+  before_action :authenticate_user!, only: %i[ new create edit update destroy ]
   before_action :set_brand, only: %i[ show edit update destroy ]
-
+  load_and_authorize_resource
+  
   # GET /brands or /brands.json
   def index
-    @brands = Brand.all
+    @pagy, @brands = pagy(Brand.all)
   end
 
   # GET /brands/1 or /brands/1.json

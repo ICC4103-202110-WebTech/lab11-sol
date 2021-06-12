@@ -8,10 +8,18 @@
     <h1>Breweries</h1>
   </div>
 </div>
+<% if can? :new, :brewery %>
 <div class="row">
   <div class="col">
     <p>Are we missing a brewery you know about?</p>
     <%= link_to 'New Brewery', new_brewery_path, class: "btn btn-primary" %>
+  </div>
+</div>
+<% end %>
+<div class="row">
+  <div class="col">
+    <p></p>
+    <%== render partial: 'pagy/bootstrap_nav', locals: { pagy: @pagy } %>  
   </div>
 </div>
 <div class="row">
@@ -21,7 +29,9 @@
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Estdate</th>
+          <%if can? :manage, :brewery %>
           <th scope="col" colspan="3">Operations</th>
+          <%end%>
         </tr>
       </thead>
       <tbody>
@@ -29,9 +39,11 @@
           <tr>
             <td><%= brewery.name %></td>
             <td><%= brewery.estdate %></td>
+            <%if can? :manage, :brewery %>
             <td><%= link_to 'Show', brewery %></td>
             <td><%= link_to 'Edit', edit_brewery_path(brewery) %></td>
             <td><%= link_to 'Destroy', brewery, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <%end%>
           </tr>
         <% end %>
       </tbody>

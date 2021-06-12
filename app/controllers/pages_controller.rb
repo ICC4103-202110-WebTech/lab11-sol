@@ -1,5 +1,3 @@
-#include ApplicationHelper
-
 class PagesController < ApplicationController
   def home
     @beers = Beer.all.includes(:brand).sample(10)

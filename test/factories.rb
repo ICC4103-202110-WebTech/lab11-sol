@@ -49,7 +49,8 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     age { rand(18..120) }
     email { "#{first_name.gsub(/\s+/, "")}.#{last_name.gsub(/\s+/, "")}@example.com".downcase }
-    
+    password { '123123123' }
+
     before(:create) do |user|
       user.address = build(:address, user: user)
     end

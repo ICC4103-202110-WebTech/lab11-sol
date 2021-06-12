@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   get 'search/search'
   root "pages#home"
 
+  devise_for :users
+  
   resources :breweries
   resources :brands
   resources :beers
@@ -25,5 +27,4 @@ Rails.application.routes.draw do
   get "purge_watch_list", to: "beers#purge_wl"
   match 'search', to: "search#search", via: [:post, :get]
 
-  devise_for :users
 end

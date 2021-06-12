@@ -1,9 +1,11 @@
 class BreweriesController < ApplicationController
+  before_action :authenticate_user!, only: %i[ new create edit update destroy ]
   before_action :set_brewery, only: %i[ show edit update destroy ]
+  load_and_authorize_resource
 
   # GET /breweries or /breweries.json
   def index
-    @breweries = Brewery.all
+    @pagy, @breweries = pagy(Brewery.all)
   end
 
   # GET /breweries/1 or /breweries/1.json

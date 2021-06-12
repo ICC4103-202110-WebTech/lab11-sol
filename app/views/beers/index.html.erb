@@ -8,6 +8,7 @@
     <% end %>
   </div>
 </div>
+<% if can? :new, :beer %>
 <div class="row">
   <div class="col">
     <p>We've got the largest and greatest selection of beers... in the world!
@@ -15,6 +16,7 @@
     <%= link_to 'New Beer', new_beer_path, class: "btn btn-primary" %>
   </div>
 </div>
+<% end %>
 <div class="row">
   <div class="col">
     <p></p>
@@ -34,7 +36,9 @@
           <th scope="col">Ibu</th>
           <th scope="col">Alcohol</th>
           <th scope="col">Blg</th>
+          <%if can? :manage, :beer %>
           <th colspan="3" scope="col">Operations</th>
+          <%end%>
         </tr>
       </thead>
       <tbody>
@@ -48,9 +52,11 @@
             <td><%= beer.ibu %></td>
             <td><%= beer.alcohol %></td>
             <td><%= beer.blg %></td>
+            <%if can? :manage, :beer %>
             <td><%= link_to 'Show', beer %></td>
             <td><%= link_to 'Edit', edit_beer_path(beer) %></td>
             <td><%= link_to 'Destroy', beer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <%end%>
           </tr>
         <% end %>
       </tbody>
