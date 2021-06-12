@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Kegs & Pints</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class="grid-container" id="main-container">
+      <header>
+        <div class="text-trademark">
+          <h1 class="text-trademark">&#127866; <%=link_to 'Kegs & Pints', root_path %><br><span class="text-slogan">Beer aficionados of the world, unite! &#x1f37b;</span></h1>
+        </div>
+      </header>
+      <nav class="main-nav nav-container">
+        <ul>
+          <li class="main-nav-item"><%=link_to "Home", root_path %></li>
+          <li class="main-nav-item"><%=link_to "Brands", brands_path %></li>
+          <li class="main-nav-item"><%=link_to "Beers", beers_path %></li>
+          <li class="main-nav-item"><%=link_to "Breweries", breweries_path %></li>
+        </ul>
+        <div>
+          <form class="row gy-2 gx-3 align-items-center nav-searchbox" id="search_form">
+            <div class="col-auto">
+              <input class="form-control" id="search_box" type="search" placeholder="Search" aria-label="Search">
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-primary" id="search_button" type="submit">Search</button>
+            </div>
+          </form>
+        </div>
+      </nav>
+      <nav class="secondary-nav">
+        <div class="session-status">
+          Welcome, <%=@user.first_name%>
+        </div>
+        <div class="top-brands">
+          <div class="title">
+          Top Brands
+          </div>
+          <ul>
+            <% @top_brands.each do |brand| %>
+            <li><%=link_to brand.name, brand_beers_path(brand) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
+      <main>
+        <div class="container">
+          <% unless flash[:notice].nil? %>
+          <div class="row mt-2 mb-2">
+            <div class="col-6">
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%=flash[:notice]%>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+            <div class="col">
+            </div>
+          </div>
+          <% end %>
+          <% unless flash[:alert].nil? %>
+          <div class="row mt-2 mb-2">
+            <div class="col-6">
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <%=flash[:alert]%>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+            <div class="col">
+            </div>
+          </div>
+          <% end %>          
+          <div class="row">       
+            <%= yield %>
+          </div>
+        </div>
+      </main>
+      <footer>
+        &copy; 2021 Kegs & Pints. Distributed under <%=link_to "MIT License", "https://opensource.org/licenses/MIT"%>.
+      </footer>
+    </div>
+  </body>
+</html>

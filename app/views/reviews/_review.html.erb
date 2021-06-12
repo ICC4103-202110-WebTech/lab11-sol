@@ -1,0 +1,24 @@
+<div class="row mb-2">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    <strong>User:</strong><%= " #{review.user.first_name} #{review.user.last_name}" %><br>
+                    <strong>Date:</strong><%= " #{review.created_at.strftime("%d-%m-%Y")}" %><br>
+                    <%= review.text %><br>
+                    <strong>Rating:
+                        <% review.rating.to_i.times do %>
+                            <i class="fa fa-star star-rating"></i>
+                        <% end %>
+                        <% if review.rating.to_f % review.rating.to_i > 0 %>
+                            <i class="fa fa-star-half star-rating"></i>
+                        <% end %>
+                        <%= " #{review.rating.to_f.round(1)}" %>
+                    </strong>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+    </div>
+</div>

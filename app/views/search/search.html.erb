@@ -1,0 +1,61 @@
+<div class="row ml-0 mt-3">
+  <h2>Search Results</h2>
+</div>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="beers-tab" data-bs-toggle="tab" data-bs-target="#beers" type="button" role="tab" aria-controls="beers" aria-selected="true">Beers</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="brands-tab" data-bs-toggle="tab" data-bs-target="#brands" type="button" role="tab" aria-controls="profile" aria-selected="false">Brands</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="breweries-tab" data-bs-toggle="tab" data-bs-target="#breweries" type="button" role="tab" aria-controls="contact" aria-selected="false">Breweries</button>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="beers" role="tabpanel" aria-labelledby="beers-tab">
+    <% if @beers.length > 0  %>
+    <div class="row ml-0 mt-2">
+      <p><%=@beers.length %> matches found.</p>
+    </div>
+    <%=render partial: "beers/beer_container", locals: { beers: @beers } %>
+    <% else %>
+    <div class="row ml-0 mt-2">
+     <p>No matches found.</p>
+    </div>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="brands" role="tabpanel" aria-labelledby="brands-tab">
+    <% if @brands.length > 0  %>
+    <div class="row ml-0 mt-2">
+      <p><%=@brands.length %> matches found.</p>
+    </div>
+    <ul>
+      <% @brands.each do |brand| %>
+      <li><%=link_to brand.name, brand_path(brand) %>, by <%=brand.brewery.name%></li>
+      <% end %>    
+    </ul>
+    <% else %>
+    <div class="row ml-0 mt-2">
+     <p>No matches found.</p>
+    </div>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="breweries" role="tabpanel" aria-labelledby="breweries-tab">
+    <% if @breweries.length > 0  %>
+    <div class="row ml-0 mt-2">
+      <p><%=@breweries.length %> matches found.</p>
+    </div>
+    <ul>
+      <% @breweries.each do |brewery| %>
+      <li><%=link_to brewery.name, brewery_path(brewery) %>, in <%=brewery.countries.map { |country| country.name }.join(", ") %></li>
+      <% end %>    
+    </ul>
+    <% else %>
+    <div class="row ml-0 mt-2">
+     <p>No matches found.</p>
+    </div>
+    <% end %>    
+  </div>
+</div>
+

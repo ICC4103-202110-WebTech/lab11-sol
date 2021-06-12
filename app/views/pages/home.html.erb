@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col">
+    <h3>Hello, today is <%=I18n.t('date.day_names')[Date.today.wday]%>!</h3>
+    <h4>Is there anything you'd like to try out today?</h4>
+    <p>Here are some cool suggestions for you:</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <%= render "beers/beer_container", beers: @beers %>  </div>
+</div>
+<%unless beers_watchlist_empty?%>
+<div class="row">
+  <div class="col">
+    <p>By the way, you may still be interested in these beers you have looked at:</p>
+    <%= render "beers/beer_container", beers: @watch_list %>
+  </div>
+</div>
+<div class="row mb-3">
+  <div class="col">
+    <%=link_to "Purge Watch List", purge_watch_list_path, class: "btn btn-primary" %>
+  </div>
+</div>
+<%end%>

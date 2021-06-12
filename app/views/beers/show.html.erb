@@ -1,0 +1,41 @@
+<div class="row ml-0 mt-3">
+  <div class="col">
+  <h2><%= image_tag(@beer.image.attached? ? @beer.image.variant(resize_to_limit: [100, 200]) : "beer_placeholder_80px.png", data: { toggle: "modal", target: "#viewFlyer" }) %></h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <%= link_to 'Edit Beer', edit_beer_path(@beer), class: "btn btn-primary" %>
+    <hr />
+  </div>
+</div>
+<div class="row ml-0 mt-3">
+  <div class="col">
+    <h3>Features</h3>
+    <ul class="list-unstyled">
+      <li><strong>Name:</strong> <%=@beer.name %></li>
+      <li><strong>Style:</strong> <%=@beer.style %></li>
+      <li><strong>Hop:</strong> <%=@beer.hop %></li>
+      <li><strong>Yeast:</strong> <%=@beer.yeast %></li>
+      <li><strong>Malts:</strong> <%=@beer.malts %></li>
+      <li><strong>IBU:</strong> <%=@beer.ibu %></li>
+      <li><strong>Alcohol:</strong> <%=@beer.alcohol %></li>
+      <li><strong>Blg:</strong> <%=@beer.blg %></li>
+    </ul>
+    <hr />    
+  </div>
+</div>
+<div class="row ml-0 mt-3 mb-3"> 
+  <h3>Reviews</h3>
+  <div class="row review-placeholder" data-beer-id="<%=@beer.id%>" data-beer-review-path="<%=beer_reviews_path(@beer)%>">
+    <div class="col mb-2">
+      <%= link_to 'Add Review', "#", class: "btn btn-primary", id: "add_review_btn" %>
+    </div>
+  </div>
+  <% if @reviews.empty? %>
+  <p>No reviews have been written for this beer yet.</p>
+  <% else %>
+  <%= render partial: "reviews/review", collection: @reviews %>
+  <% end %>
+</div>
+<%= javascript_pack_tag 'review'%>

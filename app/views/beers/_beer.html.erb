@@ -1,0 +1,14 @@
+<div class="beer-item" data-beer-alcvol="<%=beer.alcohol%>" data-beer-name="<%=beer.name%>">
+  <div class="beer-details">
+    <ul>
+      <li><%=link_to beer.brand.name, beer.brand%></li>
+      <li><%=link_to beer.name, beer%></li>
+      <li><strong>Style:</strong> <%=beer.style %></li>
+      <li><strong>IBU</strong>: <%=beer.ibu %></li>
+      <li><strong>Alc. Vol</strong>: <%=beer.alcohol %></li>
+    </ul>
+  </div>
+  <div class="beer-thumbnail">
+    <%=link_to image_tag(beer.image.attached? ? beer.image.variant(resize_to_limit: [40, 140]) : "beer_placeholder_80px.png", background: "#55595c", color: "#eceeef"), url_for(beer) %>
+  </div>
+</div>

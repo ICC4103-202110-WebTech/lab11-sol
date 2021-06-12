@@ -1,0 +1,56 @@
+<%= form_with(model: beer) do |form| %>
+  <%= errors_for beer %>
+  <div class="form-group field">
+    <%= form.label :brand, class: "form-label" %>
+    <%= form.collection_select(:brand_id, Brand.all.order(name: :asc), :id, :name, {}, { class: "form-control" }) %>
+    </datalist>
+  </div>
+  <div class="form-group field">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+  <div class="form-group field">
+    <%= form.label :style, class: "form-label" %>
+    <%= form.text_field :style, class: "form-control" %>
+  </div>
+  <div class="form-group field">
+    <%= form.label :hop, class: "form-label" %>
+    <%= form.text_field :hop, class: "form-control" %>
+  </div>
+
+  <div class="form-group field">
+    <%= form.label :yeast, class: "form-label" %>
+    <%= form.text_field :yeast, class: "form-control" %>
+  </div>
+
+  <div class="form-group field">
+    <%= form.label :malts, class: "form-label" %>
+    <%= form.text_field :malts, class: "form-control" %>
+  </div>
+
+  <div class="form-group field">
+    <%= form.label :ibu, class: "form-label" %>
+    <%= form.text_field :ibu, class: "form-control" %>
+  </div>
+
+  <div class="form-group field">
+    <%= form.label :alcohol, class: "form-label" %>
+    <%= form.text_field :alcohol, class: "form-control" %>
+  </div>
+
+  <div class="form-group field">
+    <%= form.label :blg, class: "form-label" %>
+    <%= form.text_field :blg, class: "form-control" %>
+  </div>
+
+  <div class="form-group field">
+    <%= form.label :image, class: "form-label" %>
+    <%= form.file_field :image, class: "form-control" %>
+  </div>
+</div>
+<div class="row mt-3 ml-0">
+  <div class="form-group actions">
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+</div>
+<% end %>

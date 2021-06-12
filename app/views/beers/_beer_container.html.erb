@@ -1,0 +1,13 @@
+<div class="row ml-1 mb-2">
+  <div class="col-2">
+    <%= render partial: 'beers/beer_sort_controls' %>
+  </div>
+  <div class="col-8">
+
+  </div>
+</div>
+<div class="beer-container">
+<% beers.each do |beer| %>
+  <%= render "beers/beer", beer: beer %>
+<% end %>
+</div>

@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col">
+    <p id="notice"><%= notice %></p>
+    <% unless !@brand.nil?%>
+    <h1>Beers</h1>
+    <% else %>
+    <h1>Beers by <%=@brand.name%></h1>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <p>We've got the largest and greatest selection of beers... in the world!
+    <br>Want to contribute? Add a new Beer. </p>
+    <%= link_to 'New Beer', new_beer_path, class: "btn btn-primary" %>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <p></p>
+    <%== render partial: 'pagy/bootstrap_nav', locals: { pagy: @pagy } %>  
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Style</th>
+          <th scope="col">Hop</th>
+          <th scope="col">Yeast</th>
+          <th scope="col">Malts</th>
+          <th scope="col">Ibu</th>
+          <th scope="col">Alcohol</th>
+          <th scope="col">Blg</th>
+          <th colspan="3" scope="col">Operations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @beers.each do |beer| %>
+          <tr>
+            <td><%= beer.name %></td>
+            <td><%= beer.style %></td>
+            <td><%= beer.hop %></td>
+            <td><%= beer.yeast %></td>
+            <td><%= beer.malts %></td>
+            <td><%= beer.ibu %></td>
+            <td><%= beer.alcohol %></td>
+            <td><%= beer.blg %></td>
+            <td><%= link_to 'Show', beer %></td>
+            <td><%= link_to 'Edit', edit_beer_path(beer) %></td>
+            <td><%= link_to 'Destroy', beer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%== render partial: 'pagy/bootstrap_nav', locals: { pagy: @pagy } %>
+  </div>
+</div>
+<br>
