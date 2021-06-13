@@ -19,3 +19,5 @@ Rake::Task['db:model_queries'].invoke
 u = User.first
 u.admin = true
 u.save
+
+User.create!(first_name: 'Administrator', last_name: 'Admin', email: 'admin@admin.com', password: '123123123', admin: true)
