@@ -1,4 +1,4 @@
-# Lab 11: User authentication and access control.
+# Lab 11: User authentication and access control
 
 **Names:** (enter your names here) 
 
