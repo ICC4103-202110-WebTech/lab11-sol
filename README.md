@@ -33,7 +33,7 @@ If you work with RubyMine, go to the preferences menu, then to Languages and Fra
 ## Authentication with Devise
 
 Devise is the most widely used authentication solution with Rails applications. It is easy to setup and quickly implement all the basic features, such as registration, confirmation, log in, password recovery, etc. 
-The starter code of this lab assignment already contains Devise, i.e., the `rails generate devise:install` task has been already run. In addition, you may check out the project `Gemfile` and see that Devise has been already added for you. The `User` model has been already modified to be usable with Devise, by running the `rails generate devise User` generator command. See the latest migration that has been added by this generator under the `db/migrate` directory. You will notice how the `User` model is modified to support fields necessary for authentication, such as `password` and `password_confirmation`. 
+The starter code of this lab assignment already contains Devise, and the `rails generate devise:install` task has been already run. In addition, you may check out the project `Gemfile` and see that Devise has been already added for you. The `User` model has been already modified to be usable with Devise, by running the `rails generate devise User` generator command. See the latest migration that has been added by this generator under the `db/migrate` directory. You will notice how the `User` model is modified to support fields necessary for authentication, such as `password` and `password_confirmation`. 
 
 Devise is usable in your web application in the following ways:
 
@@ -81,7 +81,7 @@ See more examples and further explanation in the official [documentation](https:
 
 ## Access control with CanCanCan
 
-CanCanCan is an access control solution that works quite well and saves a lot of time and effort. To use this gem, the first step is to add it to the `Gemfile` - which has been done for you already -. Then, you need to run a task that will create the ability class, `rails g cancan:ability`. After that, you will find the ability class at `app/models/ability.rb`. The ability class will add access control features to each role. Basically, you may define capabilities for non-registered users, registered users, and administrators. To distinguish an administrator from a registered user, you may simply use a boolean flag in the `User` model:
+[CanCanCan](https://github.com/CanCanCommunity/cancancan) is an authorization library that works quite well and saves a lot of time and effort. To use this gem, the first step is to add it to the `Gemfile` - which has been done for you already -. Then, you need to run a task that will create the ability class, `rails g cancan:ability`. After that, you will find the ability class at `app/models/ability.rb`. The ability class will add access control features to each role. Basically, you may define capabilities for non-registered users, registered users, and administrators. To distinguish an administrator from a registered user, you may simply use a boolean flag in the `User` model:
 
 ```ruby
 class Ability
@@ -101,6 +101,22 @@ class Ability
 end
 ```
 
+To enable CanCanCan authorization in your controllers, you need to add a call to the ` load_and_authorize_resource` method in the controller body. Do this just below the class declaration.
+
+```rb
+class PostsController < ApplicationController
+  load_and_authorize_resource
+
+  def show
+    # @post is already loaded and authorized
+  end
+
+  def index
+    # @posts is already loaded with all posts the user is authorized to read
+  end
+end
+```
+
 As with Devise, there are several helpers that you use to allow content to be displayed in views per type of user. For example:
 
 ```rb
@@ -111,18 +127,31 @@ As with Devise, there are several helpers that you use to allow content to be di
 
 The `can?` helper is used in views and requires the name of the operation or set of operations that you want to protect. The `manage` set of operations will cover `new`, `create`, `edit`, `update` and `delete`. You may protect all operations by using `all`.
 
-[documentation](https://github.com/CanCanCommunity/cancancan)
+The second argument to the `can?` operation can be either a model instance, or model name, as a symbol in snake case, e.g. (`:beer`).
+
+When CanCanCan detects unauthorized access to a/many resource(s), an `AccessDenied` exception will be raised. To deal with the exception nicely, you can add logic to `ApplicationController`, such as this:
+
+```rb
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.json { head :forbidden, content_type: 'text/html' }
+      format.html { redirect_to main_app.root_url, notice: exception.message }
+      format.js   { head :forbidden, content_type: 'text/html' }
+    end
+  end
+```
+
+Read the [documentation](https://github.com/CanCanCommunity/cancancan) for further details on how to implement authorization.
 
 ## Don't worry, be happy
 
 The graded requirements of this assignment are as follows:
 
 1. [1.0 point] Edit the migration by which the `users` table is created in the database. Add a column named `admin`, with boolean type, and default value `false`. Edit the application seeds file, so that after models are created with factories, an administrative user with email `admin@admin.com` and password `123123123` is created. You may need to run `rails db:drop` (delete the database), `rails db:migrate` (create the database run all migrations) and `rails db:seed` tasks for this to work.
-2. [] Follow indication in the 
-1. [1.5 points] Modify the application layout, so that in the area in which the welcome message is displayed (i.e., div with class `session-status`), sign in and sign up links appear if a user has not logged in. If a user has logged in, then, the sign in and sign up links must disappear, and instead, 'sign out' and 'my account' links must be displayed.
-2. [1.5 points] Run CanCanCan's ability generator, i.e., `rails g cancan:ability`. Edit the ability at `app/models/ability.rb`. Ensure that an administrative user 
-
-Requirements 1 and 2 will be graded on a 1-5 scale. Requirement 3 will be graded in a 1-8 scale. 
+2. [1.5 points] Modify the application layout, so that in the area in which the welcome message is displayed (i.e., div with class `session-status`), sign in and sign up links appear if a user has not logged in. If a user has logged in, then, the sign in and sign up links must disappear, and instead, 'sign out' and 'my account' (hint: `edit_user_registration_path` will give you the path for this) links must be displayed.
+3. [1.0 point] Apply Bootstrap styles to Devise's forms located at `app/views/devise/registrations` and `sessions`, including `form-control`, `form-label`, etc. You may enclose form fields with their labels within a `col-3` div with no need to put each form field within a row.
+4. [1.0 point] Ensure that `beers#index`, `breweries#index`, and `breweries#index` hide the buttons that allow adding new models of the respective kind, if the current user is not an administrator. Likewise, hide links to edit and delete operations in the tables displaying the respective models.
+5. [1.5 points] Run CanCanCan's ability generator, i.e., `rails g cancan:ability`. Edit the ability class at `app/models/ability.rb`. Ensure that an administrative user can manage all resources, and that other users are only allowed to read them. It is a simple modification to the ability class, indeed, simpler than the example that is shown above.
 
 We leave the following sections as a refresher in case you need to see generalities and examples from past assignments.
 
